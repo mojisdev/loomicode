@@ -42,6 +42,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "generate:data-files": "tsx scripts/generate-data-files.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
