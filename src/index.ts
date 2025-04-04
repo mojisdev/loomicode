@@ -1,3 +1,8 @@
-export function hello(): string {
-  return "hello";
-}
+export { createLoom } from "./loom";
+export type { LoomConfig, LoomContext, LoomInstance } from "./loom";
+export {
+  sequences,
+} from "./sequences";
+export {
+  zwjSequences,
+} from "./zwj-sequences";
