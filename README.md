@@ -3,7 +3,7 @@
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 
-utilities to work with loom data files
+A loom for unicode data files
 
 ## 📦 Installation
 

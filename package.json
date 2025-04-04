@@ -1,7 +1,7 @@
 {
   "name": "@mojis/loomicode",
   "version": "0.0.0",
-  "description": "",
+  "description": "A loom for unicode data files",
   "type": "module",
   "author": {
     "name": "Lucas Nørgård",
