@@ -5,6 +5,13 @@
 
 A loom for unicode data files
 
+> [!WARNING]
+> This package is still under development and the API is subject to change.
+> Some of the missing features are:
+> - Support for generating multiple entries from a single input
+> - Handle Version Alignment
+> - Predicates for filtering versions
+
 ## 📦 Installation
 
 ```bash
