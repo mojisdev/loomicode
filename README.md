@@ -11,6 +11,28 @@ A loom for unicode data files
 npm install @mojis/loomicode
 ```
 
+## Usage
+
+```ts
+import { sequences } from "@mojis/loomicode";
+
+const result = sequences({
+  separator: ";",
+  commentPrefix: "#",
+  version: "1.0",
+  input: [
+    {
+      codePoints: ["1F600", "1F601"],
+      type: "emoji",
+      description: "smiling face",
+      comment: "happy expression"
+    }
+  ],
+});
+
+console.log(result);
+```
+
 ## 📄 License
 
 Published under [MIT License](./LICENSE).
