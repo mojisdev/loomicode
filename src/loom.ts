@@ -28,18 +28,18 @@ export function createLoom<
   TOptionsSchema extends z.ZodType,
 >(config: LoomConfig<TInputSchema, TOptionsSchema>): LoomInstance<TInputSchema, TOptionsSchema> {
   return (options) => {
-    // Validate options against schema
+    // validate options against schema
     const validatedOptions = config.optionsSchema.parse(options);
 
-    // Validate input against schema
+    // validate input against schema
     const validatedInput = z.array(config.inputSchema).parse(options.input);
 
-    // Create context for template
+    // create context for template
     const ctx: LoomContext<TOptionsSchema> = {
       options: validatedOptions,
     };
 
-    // Generate output for each item
+    // generate output for each item
     const lines: string[] = [];
 
     for (const item of validatedInput) {
