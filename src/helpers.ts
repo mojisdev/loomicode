@@ -7,19 +7,13 @@ export interface WeaveOptions<TInput> {
 
   /**
    * A function that will be called for each item to be generated
-   * @param {TInput} input - The input object
-   * @param {number} index - The index of the item to be generated
-   * @returns {TInput} The generated item
    */
-  customizer?: (input: TInput, index: number) => TInput;
+  customizer?: WeaveCustomizer<TInput>;
 
   /**
    * A list of fields that will be used to generate random values
-   * @type {{ [K in keyof Partial<TInput>]: Array<TInput[K]> }}
    */
-  fields?: {
-    [K in keyof Partial<TInput>]: Array<TInput[K]>;
-  };
+  fields?: WeaveFields<TInput>;
 }
 
 const DEFAULT_WEAVE_OPTIONS: WeaveOptions<any> = {
@@ -28,11 +22,16 @@ const DEFAULT_WEAVE_OPTIONS: WeaveOptions<any> = {
   fields: {},
 };
 
+export type WeaveCustomizer<TInput> = (input: TInput, index: number) => TInput;
+export type WeaveFields<TInput> = {
+  [K in keyof Partial<TInput>]?: Array<TInput[K]>;
+};
+
 /**
  * Weaves new objects into an array based on a template from the input.
  *
  * @template TInput The type of the input object(s).
- * @param {WeaveInput<TInput>} input An object or array of objects to use as templates.
+ * @param {TInput | TInput[]} input An object or array of objects to use as templates.
  * @param {WeaveOptions<TInput>} [opts] Optional configuration for the weaving process.
  * @param {number} [opts.amount] The number of new objects to weave into the array. Must be a positive number.
  * @param {WeaveFields<TInput>} [opts.fields] An object specifying fields to randomize in the new objects. Each field should be an array of possible values.
