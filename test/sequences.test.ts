@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { sequences } from "../src/sequences";
+import { sequences } from "../src/generators/sequences";
 
 describe("sequences", () => {
   const defaultOptions = {

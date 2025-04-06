@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { zwjSequences } from "../src/zwj-sequences";
+import { zwjSequences } from "../src/generators/zwj-sequences";
 
 describe("zwj-sequences", () => {
   const defaultOptions = {
