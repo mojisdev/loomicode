@@ -1,8 +1,9 @@
-import { z } from "zod";
+import { type } from "arktype";
 import bundledFlags from "../bundled-json-files/emoji-test-flags.json" with { type: "json" };
 import bundledSmileys from "../bundled-json-files/emoji-test-smileys.json" with { type: "json" };
 import { createLoom } from "../loom";
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 const VALID_STATUS = [
   "component",
   "fully-qualified",
@@ -10,31 +11,28 @@ const VALID_STATUS = [
   "unqualified",
 ] as const;
 
-const entry = z.object({
-  codePoints: z.array(z.string()),
+const entrySchema = type({
+  codePoints: "string[]",
   // can't use union of literals since typescript can only infer
   // the status type to a string, and not the union of literals
-  status: z.string().refine(
-    (val) => VALID_STATUS.includes(val as (typeof VALID_STATUS)[number]),
-    {
-      message: `status must be one of: ${VALID_STATUS.join(", ")}`,
-    },
-  ),
-  comment: z.string(),
+  status: "string",
+  comment: "string",
 });
 
-const emojiTestInputSchema = z.object({
-  group: z.string(),
-  subgroups: z.array(z.object({
-    subgroup: z.string(),
-    entries: z.array(entry),
-  })),
+const subgroupEntrySchema = type({
+  subgroup: "string",
+  entries: entrySchema.array(),
 });
 
-const emojiTestOptionsSchema = z.object({
-  separator: z.string(),
-  commentPrefix: z.string(),
-  version: z.string(),
+const emojiTestInputSchema = type({
+  group: "string",
+  subgroups: subgroupEntrySchema.array(),
+});
+
+const emojiTestOptionsSchema = type({
+  separator: "string",
+  commentPrefix: "string",
+  version: "string",
 });
 
 export const emojiTest = createLoom({

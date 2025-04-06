@@ -1,22 +1,29 @@
 import type { LoomConfig, LoomContext, LoomInstance } from "./types";
+import { type } from "arktype";
 import { compare } from "compare-versions";
-import { z } from "zod";
+
+function _validate<T extends type.Any>(value: T["infer"], schema: T): T["infer"] {
+  const out = schema(value);
+  if (out instanceof type.errors) {
+    throw new TypeError(out.summary);
+  }
+  return out;
+}
 
 export function createLoom<
-  TInputSchema extends z.ZodType,
-  TOptionsSchema extends z.ZodType,
-  TPresets extends Record<string, TInputSchema["_input"][]>,
+  TInputSchema extends type.Any,
+  TOptionsSchema extends type.Any,
+  TPresets extends Record<string, TInputSchema["infer"][]>,
 >(
   config: LoomConfig<TInputSchema, TOptionsSchema, TPresets>,
 ): LoomInstance<TInputSchema, TOptionsSchema, TPresets> {
   const baseLoomFn = (
-    options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] },
+    options: TOptionsSchema["infer"] & { input: TInputSchema["infer"][] },
   ): string => {
     // validate options against schema
-    const validatedOptions = config.optionsSchema.parse(options);
+    const validatedOptions = _validate(options, config.optionsSchema);
 
-    // validate input against schema
-    const validatedInput = z.array(config.inputSchema).parse(options.input);
+    const validatedInput = _validate(options.input, config.inputSchema.array());
 
     // create context for template
     const ctx: LoomContext<TOptionsSchema> = Object.freeze(
@@ -49,7 +56,7 @@ export function createLoom<
     ? Object.fromEntries(
         Object.entries(config.presets).map(([key, value]) => [
           key,
-          (options: TOptionsSchema["_input"]) =>
+          (options: TOptionsSchema["infer"]) =>
             baseLoomFn({ ...options, input: value }),
         ]),
       )
@@ -62,8 +69,8 @@ export function createLoom<
   >;
 }
 
-function buildLoomContext<TOptionsSchema extends z.ZodType>(
-  options: TOptionsSchema["_input"],
+function buildLoomContext<TOptionsSchema extends type.Any>(
+  options: TOptionsSchema["infer"],
 ): LoomContext<TOptionsSchema> {
   return {
     options,

@@ -1,17 +1,17 @@
-import { z } from "zod";
+import { type } from "arktype";
 import { createLoom } from "../loom";
 
-const zwjSequencesInputSchema = z.object({
-  codePoints: z.array(z.string()),
-  type: z.string(),
-  description: z.string(),
-  comment: z.string(),
+const zwjSequencesInputSchema = type({
+  codePoints: "string[]",
+  type: "string",
+  description: "string",
+  comment: "string",
 });
 
-const zwjSequencesOptionsSchema = z.object({
-  separator: z.string(),
-  commentPrefix: z.string(),
-  version: z.string(),
+const zwjSequencesOptionsSchema = type({
+  separator: "string",
+  commentPrefix: "string",
+  version: "string",
 });
 
 export const zwjSequences = createLoom({

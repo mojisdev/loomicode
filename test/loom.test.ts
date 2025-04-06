@@ -1,15 +1,15 @@
+import { type } from "arktype";
 import { expect, it } from "vitest";
-import { z } from "zod";
 import { createLoom } from "../src/loom";
 
-const testInputSchema = z.object({
-  name: z.string(),
-  value: z.number(),
+const testInputSchema = type({
+  name: "string",
+  value: "number",
 });
 
-const testOptionsSchema = z.object({
-  version: z.string(),
-  prefix: z.string(),
+const testOptionsSchema = type({
+  version: "string",
+  prefix: "string",
 });
 
 it("should create a loom instance that processes input correctly", () => {
