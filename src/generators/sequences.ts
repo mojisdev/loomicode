@@ -18,7 +18,6 @@ export const sequences = createLoom({
   inputSchema: sequencesInputSchema,
   optionsSchema: sequencesOptionsSchema,
   template: (ctx, item) => {
-    //              ^?
     return `${item.codePoints.join(" ")} ${ctx.options.separator} ${item.type} ${ctx.options.separator} ${item.description} ${ctx.options.commentPrefix} ${item.comment}`;
   },
 });
