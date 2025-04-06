@@ -74,7 +74,7 @@ export const emojiTest = createLoom({
             entries: [
               {
                 codePoints: [],
-                status: "",
+                status: "fully-qualified",
                 comment: "",
               },
             ],
