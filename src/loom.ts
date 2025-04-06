@@ -36,19 +36,19 @@ function buildLoomContext<TOptionsSchema extends z.ZodType>(options: TOptionsSch
   return {
     options,
     isVersionLessThan: (version) => {
-      return compare(version, options.version, "<");
+      return compare(options.version, version, "<");
     },
     isVersionGreaterThan: (version) => {
-      return compare(version, options.version, ">");
+      return compare(options.version, version, ">");
     },
     isVersionEqual: (version) => {
-      return compare(version, options.version, "=");
+      return compare(options.version, version, "=");
     },
     isVersionGreaterThanOrEqual: (version) => {
-      return compare(version, options.version, ">=");
+      return compare(options.version, version, ">=");
     },
     isVersionLessThanOrEqual: (version) => {
-      return compare(version, options.version, "<=");
+      return compare(options.version, version, "<=");
     },
   };
 }
