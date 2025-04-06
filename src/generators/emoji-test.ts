@@ -61,5 +61,26 @@ export const emojiTest = createLoom({
   presets: {
     smileys: bundledSmileys,
     flags: bundledFlags,
+    multipleGroups: [
+      ...bundledSmileys,
+      ...bundledFlags,
+    ],
+    invalid: [
+      {
+        group: "Invalid",
+        subgroups: [
+          {
+            subgroup: "invalid-subgroup",
+            entries: [
+              {
+                codePoints: [],
+                status: "",
+                comment: "",
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
 });
