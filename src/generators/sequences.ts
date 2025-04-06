@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createLoom } from "./loom";
+import { createLoom } from "../loom";
 
 const sequencesInputSchema = z.object({
   codePoints: z.array(z.string()),
