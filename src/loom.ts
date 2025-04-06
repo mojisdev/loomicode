@@ -1,6 +1,15 @@
+import { compare } from "compare-versions";
 import { z } from "zod";
 
 export interface LoomContext<TOptionsSchema extends z.ZodType> {
+  /**
+   * Check if the version of the Unicode standard is lower than the given version.
+   */
+  isVersionLowerThan: (version: string) => boolean;
+
+  /**
+   * The options.
+   */
   options: TOptionsSchema["_input"];
 }
 
@@ -53,6 +62,9 @@ export function createLoom<
     // create context for template
     const ctx: LoomContext<TOptionsSchema> = {
       options: validatedOptions,
+      isVersionLowerThan: (version) => {
+        return compare(version, validatedOptions.version, "<");
+      },
     };
 
     // generate output for each item
