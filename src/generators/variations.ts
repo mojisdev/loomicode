@@ -17,6 +17,8 @@ export const variations = createLoom({
   inputSchema: variationsInputSchema,
   optionsSchema: variationsOptionsSchema,
   template: (ctx, item) => {
+    // 0023 FE0E  ; text style;  # (1.1) NUMBER SIGN
+    // 0023 FE0F  ; emoji style; # (1.1) NUMBER SIGN
     return `${item.codePoints.join(" ")} ${ctx.options.separator} ${item.style}${ctx.options.separator} ${ctx.options.commentPrefix} ${item.comment}`;
   },
   eof: true,

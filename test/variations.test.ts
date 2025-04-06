@@ -3,7 +3,7 @@ import { variations } from "../src/generators/variations";
 
 describe("variations", () => {
   const defaultOptions = {
-    separator: "|",
+    separator: ";",
     commentPrefix: "#",
     version: "1.0",
   };
@@ -17,7 +17,7 @@ describe("variations", () => {
 
     const result = variations({ ...defaultOptions, input: [input] });
     expect(result).toBe(
-      "2764 FE0F | emoji | # heart symbol\n"
+      "2764 FE0F ; emoji; # heart symbol\n"
       + "#EOF\n",
     );
   });
@@ -38,8 +38,8 @@ describe("variations", () => {
 
     const result = variations({ ...defaultOptions, input: inputs });
     expect(result).toBe(
-      "2764 FE0E | text | # text heart\n"
-      + "2764 FE0F | emoji | # emoji heart\n"
+      "2764 FE0E ; text; # text heart\n"
+      + "2764 FE0F ; emoji; # emoji heart\n"
       + "#EOF\n",
     );
   });
@@ -59,7 +59,7 @@ describe("variations", () => {
 
     const result = variations({ ...options, input: [input] });
     expect(result).toBe(
-      "2764 FE0F -> emoji -> // heart symbol\n"
+      "2764 FE0F -> emoji-> // heart symbol\n"
       + "#EOF\n",
     );
   });
@@ -107,10 +107,10 @@ describe("variations", () => {
         const result = variations.commonSymbols(defaultOptions);
 
         expect(result).toEqual(
-          "2764 FE0E | text | # heart as text symbol\n"
-          + "2764 FE0F | emoji | # heart as emoji symbol\n"
-          + "2B50 FE0E | text | # star as text symbol\n"
-          + "2B50 FE0F | emoji | # star as emoji symbol\n"
+          "2764 FE0E ; text; # heart as text symbol\n"
+          + "2764 FE0F ; emoji; # heart as emoji symbol\n"
+          + "2B50 FE0E ; text; # star as text symbol\n"
+          + "2B50 FE0F ; emoji; # star as emoji symbol\n"
           + "#EOF\n",
         );
       });
@@ -120,10 +120,10 @@ describe("variations", () => {
       it("should generate punctuation variations", () => {
         const result = variations.punctuation(defaultOptions);
         expect(result).toEqual(
-          "2757 FE0E | text | # exclamation mark as text\n"
-          + "2757 FE0F | emoji | # exclamation mark as emoji\n"
-          + "2753 FE0E | text | # question mark as text\n"
-          + "2753 FE0F | emoji | # question mark as emoji\n"
+          "2757 FE0E ; text; # exclamation mark as text\n"
+          + "2757 FE0F ; emoji; # exclamation mark as emoji\n"
+          + "2753 FE0E ; text; # question mark as text\n"
+          + "2753 FE0F ; emoji; # question mark as emoji\n"
           + "#EOF\n",
         );
       });
@@ -134,10 +134,10 @@ describe("variations", () => {
         const result = variations.miscellaneous(defaultOptions);
 
         expect(result).toEqual(
-          "2600 FE0E | text | # sun as text symbol\n"
-          + "2600 FE0F | emoji | # sun as emoji symbol\n"
-          + "2695 FE0E | text | # medical symbol as text\n"
-          + "2695 FE0F | emoji | # medical symbol as emoji\n"
+          "2600 FE0E ; text; # sun as text symbol\n"
+          + "2600 FE0F ; emoji; # sun as emoji symbol\n"
+          + "2695 FE0E ; text; # medical symbol as text\n"
+          + "2695 FE0F ; emoji; # medical symbol as emoji\n"
           + "#EOF\n",
         );
       });
@@ -145,17 +145,17 @@ describe("variations", () => {
 
     it("should work with custom options in presets", () => {
       const customOptions = {
-        separator: "->",
+        separator: ";",
         commentPrefix: "//",
         version: "1.0",
       };
 
       const result = variations.commonSymbols(customOptions);
       expect(result).toEqual(
-        "2764 FE0E -> text -> // heart as text symbol\n"
-        + "2764 FE0F -> emoji -> // heart as emoji symbol\n"
-        + "2B50 FE0E -> text -> // star as text symbol\n"
-        + "2B50 FE0F -> emoji -> // star as emoji symbol\n"
+        "2764 FE0E ; text; // heart as text symbol\n"
+        + "2764 FE0F ; emoji; // heart as emoji symbol\n"
+        + "2B50 FE0E ; text; // star as text symbol\n"
+        + "2B50 FE0F ; emoji; // star as emoji symbol\n"
         + "#EOF\n",
       );
     });
