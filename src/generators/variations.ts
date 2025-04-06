@@ -17,7 +17,7 @@ export const variations = createLoom({
   inputSchema: variationsInputSchema,
   optionsSchema: variationsOptionsSchema,
   template: (ctx, item) => {
-    return `${item.codePoints.join(" ")} ${ctx.options.separator} ${item.style} ${ctx.options.separator} ${ctx.options.commentPrefix} ${item.comment}`;
+    return `${item.codePoints.join(" ")} ${ctx.options.separator} ${item.style}${ctx.options.separator} ${ctx.options.commentPrefix} ${item.comment}`;
   },
   eof: true,
   presets: {
@@ -85,6 +85,13 @@ export const variations = createLoom({
         codePoints: ["2695", "FE0F"],
         style: "emoji",
         comment: "medical symbol as emoji",
+      },
+    ],
+    invalid: [
+      {
+        codePoints: ["2600", "FE0E", "FE0F"],
+        style: "invalid-style",
+        comment: "",
       },
     ],
   },
