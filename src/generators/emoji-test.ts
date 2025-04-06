@@ -1,4 +1,5 @@
 import { z } from "zod";
+import bundledSmileys from "../bundled-json-files/emoji-test-smileys.json";
 import { createLoom } from "../loom";
 
 const entry = z.object({
@@ -55,33 +56,8 @@ export const emojiTest = Object.assign(baseEmojiTest, {
       version,
       separator: ";",
       commentPrefix: "#",
-      input: [
-        {
-          group: "Smileys & Emotion",
-          subgroups: [
-            {
-              subgroup: "face-smiling",
-              entries: [
-                {
-                  codePoints: ["1F600"],
-                  status: "fully-qualified",
-                  comment: "grinning face",
-                },
-                {
-                  codePoints: ["1F603"],
-                  status: "fully-qualified",
-                  comment: "grinning face with big eyes",
-                },
-                {
-                  codePoints: ["1F604"],
-                  status: "fully-qualified",
-                  comment: "grinning face with smiling eyes",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      // @ts-expect-error asd
+      input: bundledSmileys,
     });
   },
   skinTone: (version: string): string => {
