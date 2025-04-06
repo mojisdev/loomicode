@@ -127,3 +127,21 @@ it("should handle empty input array", () => {
 
   expect(result).toBe("");
 });
+
+it("should create a loom instance with presets", () => {
+  const loom = createLoom({
+    inputSchema: testInputSchema,
+    optionsSchema: testOptionsSchema,
+    template: (ctx, item) => `${item.name}: ${item.value}`,
+    presets: {
+      test: [{ name: "test", value: 42 }],
+    },
+  });
+
+  const result = loom.test({
+    version: "1.0.0",
+    prefix: "Test",
+  });
+
+  expect(result).toBe("test: 42");
+});

@@ -1,0 +1,27 @@
+[
+  {
+    "group": "Smileys & Emotion",
+    "subgroups": [
+      {
+        "subgroup": "face-smiling",
+        "entries": [
+          {
+            "codePoints": ["1F600"],
+            "status": "fully-qualified",
+            "comment": "grinning face"
+          },
+          {
+            "codePoints": ["1F603"],
+            "status": "fully-qualified",
+            "comment": "grinning face with big eyes"
+          },
+          {
+            "codePoints": ["1F604"],
+            "status": "fully-qualified",
+            "comment": "grinning face with smiling eyes"
+          }
+        ]
+      }
+    ]
+  }
+]
