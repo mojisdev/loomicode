@@ -60,12 +60,7 @@ export function createLoom<
     const validatedInput = z.array(config.inputSchema).parse(options.input);
 
     // create context for template
-    const ctx: LoomContext<TOptionsSchema> = {
-      options: validatedOptions,
-      isVersionLowerThan: (version) => {
-        return compare(version, validatedOptions.version, "<");
-      },
-    };
+    const ctx: LoomContext<TOptionsSchema> = Object.freeze(buildLoomContext(validatedOptions));
 
     // generate output for each item
     const lines: string[] = [];
@@ -80,5 +75,14 @@ export function createLoom<
     }
 
     return lines.join("\n");
+  };
+}
+
+function buildLoomContext<TOptionsSchema extends z.ZodType>(options: TOptionsSchema["_input"]): LoomContext<TOptionsSchema> {
+  return {
+    options,
+    isVersionLowerThan: (version) => {
+      return compare(version, options.version, "<");
+    },
   };
 }
