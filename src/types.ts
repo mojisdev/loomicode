@@ -59,6 +59,11 @@ export interface LoomConfig<
   ) => string;
 
   /**
+   * Should there be an EOF marker at the end of the output?
+   */
+  eof?: boolean;
+
+  /**
    * The predicate function. If provided, the loom will only process items that return true.
    */
   predicate?: (ctx: LoomContext<TOptionsSchema>, item: TInputSchema["_input"]) => boolean;

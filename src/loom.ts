@@ -28,6 +28,10 @@ export function createLoom<
       lines.push(config.template(ctx, item));
     }
 
+    if (config.eof) {
+      lines.push("\n#EOF\n");
+    }
+
     return lines.join("\n");
   };
 }
