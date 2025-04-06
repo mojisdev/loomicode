@@ -5,7 +5,27 @@ export interface LoomContext<TOptionsSchema extends z.ZodType> {
   /**
    * Check if the version of the Unicode standard is lower than the given version.
    */
-  isVersionLowerThan: (version: string) => boolean;
+  isVersionLessThan: (version: string) => boolean;
+
+  /**
+   * Check if the version of the Unicode standard is greater than the given version.
+   */
+  isVersionGreaterThan: (version: string) => boolean;
+
+  /**
+   * Check if the version of the Unicode standard is equal to the given version.
+   */
+  isVersionEqual: (version: string) => boolean;
+
+  /**
+   * Check if the version of the Unicode standard is greater than or equal to the given version.
+   */
+  isVersionGreaterThanOrEqual: (version: string) => boolean;
+
+  /**
+   * Check if the version of the Unicode standard is less than or equal to the given version.
+   */
+  isVersionLessThanOrEqual: (version: string) => boolean;
 
   /**
    * The options.
@@ -81,8 +101,20 @@ export function createLoom<
 function buildLoomContext<TOptionsSchema extends z.ZodType>(options: TOptionsSchema["_input"]): LoomContext<TOptionsSchema> {
   return {
     options,
-    isVersionLowerThan: (version) => {
+    isVersionLessThan: (version) => {
       return compare(version, options.version, "<");
+    },
+    isVersionGreaterThan: (version) => {
+      return compare(version, options.version, ">");
+    },
+    isVersionEqual: (version) => {
+      return compare(version, options.version, "=");
+    },
+    isVersionGreaterThanOrEqual: (version) => {
+      return compare(version, options.version, ">=");
+    },
+    isVersionLessThanOrEqual: (version) => {
+      return compare(version, options.version, "<=");
     },
   };
 }
