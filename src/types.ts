@@ -1,3 +1,4 @@
+import type { type } from "arktype";
 import type { z } from "zod";
 
 export type LoomContextHelperFn = (version: string) => boolean;
@@ -29,17 +30,17 @@ export interface LoomContextHelpers {
   isVersionLessThanOrEqual: LoomContextHelperFn;
 }
 
-export interface LoomContext<TOptionsSchema extends z.ZodType> extends LoomContextHelpers {
+export interface LoomContext<TOptionsSchema extends type.Any> extends LoomContextHelpers {
   /**
    * The options.
    */
-  options: TOptionsSchema["_input"];
+  options: TOptionsSchema["infer"];
 }
 
 export interface LoomConfig<
-  TInputSchema extends z.ZodType,
-  TOptionsSchema extends z.ZodType,
-  TPresets extends Record<string, TInputSchema["_input"][]>,
+  TInputSchema extends type.Any,
+  TOptionsSchema extends type.Any,
+  TPresets extends Record<string, TInputSchema["infer"][]>,
 > {
   /**
    * The schema of the input data.
@@ -56,7 +57,7 @@ export interface LoomConfig<
    */
   template: (
     ctx: LoomContext<TOptionsSchema>,
-    item: TInputSchema["_input"]
+    item: TInputSchema["infer"]
   ) => string;
 
   /**
@@ -67,7 +68,7 @@ export interface LoomConfig<
   /**
    * The predicate function. If provided, the loom will only process items that return true.
    */
-  predicate?: (ctx: LoomContext<TOptionsSchema>, item: TInputSchema["_input"]) => boolean;
+  predicate?: (ctx: LoomContext<TOptionsSchema>, item: TInputSchema["infer"]) => boolean;
 
   /**
    * Attach custom presets to the loom.
@@ -76,11 +77,11 @@ export interface LoomConfig<
 }
 
 export type LoomInstance<
-  TInputSchema extends z.ZodType,
-  TOptionsSchema extends z.ZodType,
-  TPresets extends Record<string, TInputSchema["_input"][]>,
+  TInputSchema extends type.Any,
+  TOptionsSchema extends type.Any,
+  TPresets extends Record<string, TInputSchema["infer"][]>,
 > = {
-  (options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] }): string;
+  (options: TOptionsSchema["infer"] & { input: TInputSchema["infer"][] }): string;
 } & {
-  [key in keyof TPresets]: (options: TOptionsSchema["_input"]) => string;
+  [key in keyof TPresets]: (options: TOptionsSchema["infer"]) => string;
 };
