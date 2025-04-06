@@ -8,17 +8,42 @@
           {
             "codePoints": ["1F600"],
             "status": "fully-qualified",
-            "comment": "grinning face"
+            "comment": "😀 E1.0 grinning face"
           },
           {
             "codePoints": ["1F603"],
             "status": "fully-qualified",
-            "comment": "grinning face with big eyes"
+            "comment": "😃 E0.6 grinning face with big eyes"
           },
           {
             "codePoints": ["1F604"],
             "status": "fully-qualified",
-            "comment": "grinning face with smiling eyes"
+            "comment": "😄 E0.6 grinning face with smiling eyes"
+          },
+          {
+            "codePoints": ["1F601"],
+            "status": "fully-qualified",
+            "comment": "😁 E0.6 beaming face with smiling eyes"
+          },
+          {
+            "codePoints": ["1F606"],
+            "status": "fully-qualified",
+            "comment": "😆 E0.6 grinning squinting face"
+          },
+          {
+            "codePoints": ["1F605"],
+            "status": "fully-qualified",
+            "comment": "😅 E0.6 grinning face with sweat"
+          },
+          {
+            "codePoints": ["1F923"],
+            "status": "fully-qualified",
+            "comment": "🤣 E3.0 rolling on the floor laughing"
+          },
+          {
+            "codePoints": ["1F602"],
+            "status": "fully-qualified",
+            "comment": "😂 E0.6 face with tears of joy"
           }
         ]
       }
