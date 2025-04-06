@@ -1,43 +1,6 @@
+import type { LoomConfig, LoomContext, LoomInstance } from "./types";
+import { compare } from "compare-versions";
 import { z } from "zod";
-
-export interface LoomContext<TOptionsSchema extends z.ZodType> {
-  options: TOptionsSchema["_input"];
-}
-
-export interface LoomConfig<
-  TInputSchema extends z.ZodType,
-  TOptionsSchema extends z.ZodType,
-> {
-  /**
-   * The schema of the input data.
-   */
-  inputSchema: TInputSchema;
-
-  /**
-   * The schema of the options.
-   */
-  optionsSchema: TOptionsSchema;
-
-  /**
-   * The template function.
-   */
-  template: (
-    ctx: LoomContext<TOptionsSchema>,
-    item: TInputSchema["_input"]
-  ) => string;
-
-  /**
-   * The predicate function.
-   */
-  predicate?: (ctx: LoomContext<TOptionsSchema>, item: TInputSchema["_input"]) => boolean;
-}
-
-export interface LoomInstance<
-  TInputSchema extends z.ZodType,
-  TOptionsSchema extends z.ZodType,
-> {
-  (options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] }): string;
-}
 
 export function createLoom<
   TInputSchema extends z.ZodType,
@@ -51,9 +14,7 @@ export function createLoom<
     const validatedInput = z.array(config.inputSchema).parse(options.input);
 
     // create context for template
-    const ctx: LoomContext<TOptionsSchema> = {
-      options: validatedOptions,
-    };
+    const ctx: LoomContext<TOptionsSchema> = Object.freeze(buildLoomContext(validatedOptions));
 
     // generate output for each item
     const lines: string[] = [];
@@ -68,5 +29,26 @@ export function createLoom<
     }
 
     return lines.join("\n");
+  };
+}
+
+function buildLoomContext<TOptionsSchema extends z.ZodType>(options: TOptionsSchema["_input"]): LoomContext<TOptionsSchema> {
+  return {
+    options,
+    isVersionLessThan: (version) => {
+      return compare(options.version, version, "<");
+    },
+    isVersionGreaterThan: (version) => {
+      return compare(options.version, version, ">");
+    },
+    isVersionEqual: (version) => {
+      return compare(options.version, version, "=");
+    },
+    isVersionGreaterThanOrEqual: (version) => {
+      return compare(options.version, version, ">=");
+    },
+    isVersionLessThanOrEqual: (version) => {
+      return compare(options.version, version, "<=");
+    },
   };
 }
