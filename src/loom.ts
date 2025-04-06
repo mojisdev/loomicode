@@ -7,7 +7,7 @@ export function createLoom<
   TOptionsSchema extends z.ZodType,
   TPresets extends Record<string, TInputSchema["_input"][]>,
 >(config: LoomConfig<TInputSchema, TOptionsSchema, TPresets>): LoomInstance<TInputSchema, TOptionsSchema, TPresets> {
-  const base = (options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] }): string => {
+  const baseLoomFn = (options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] }): string => {
     // validate options against schema
     const validatedOptions = config.optionsSchema.parse(options);
 
@@ -38,14 +38,17 @@ export function createLoom<
     return lines.join("\n");
   };
 
-  const extras = Object.entries(config.presets ?? {}).reduce((acc, [key, value]) => {
-    acc[key] = (options: TOptionsSchema["_input"]) => {
-      return base({ ...options, input: value });
-    };
-    return acc;
-  }, {} as Record<string, (options: TOptionsSchema["_input"]) => string>);
+  // create the preset methods
+  const presets = config.presets
+    ? Object.fromEntries(
+        Object.entries(config.presets).map(([key, value]) => [
+          key,
+          (options: TOptionsSchema["_input"]) => baseLoomFn({ ...options, input: value }),
+        ]),
+      )
+    : {};
 
-  return Object.assign(base, extras) as LoomInstance<TInputSchema, TOptionsSchema, TPresets>;
+  return Object.assign(baseLoomFn, presets) as LoomInstance<TInputSchema, TOptionsSchema, TPresets>;
 }
 
 function buildLoomContext<TOptionsSchema extends z.ZodType>(options: TOptionsSchema["_input"]): LoomContext<TOptionsSchema> {
