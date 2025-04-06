@@ -59,7 +59,7 @@ export interface LoomConfig<
   ) => string;
 
   /**
-   * The predicate function.
+   * The predicate function. If provided, the loom will only process items that return true.
    */
   predicate?: (ctx: LoomContext<TOptionsSchema>, item: TInputSchema["_input"]) => boolean;
 }
