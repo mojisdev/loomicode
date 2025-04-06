@@ -30,7 +30,7 @@ export const emojiTest = createLoom({
   inputSchema: emojiTestInputSchema,
   optionsSchema: emojiTestOptionsSchema,
   predicate: (ctx) => {
-    return ctx.isVersionLowerThan("3.x");
+    return ctx.isVersionLessThanOrEqual("3.x");
   },
   template: (ctx, item) => {
     let template = `group: ${item.group}\n`;
