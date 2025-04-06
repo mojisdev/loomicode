@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { z } from "zod";
 import { sequences } from "../src/generators/sequences";
 
 describe("sequences", () => {
@@ -65,7 +64,7 @@ describe("sequences", () => {
         // @ts-expect-error - testing invalid input
         { ...invalidInput, description: undefined },
       ],
-    })).toThrow(z.ZodError);
+    })).toThrow("description must be a string (was undefined)");
   });
 
   it("should validate options schema", () => {
@@ -87,7 +86,7 @@ describe("sequences", () => {
       // @ts-expect-error - testing invalid options
       commentPrefix: undefined,
       input: [input],
-    })).toThrow(z.ZodError);
+    })).toThrow("commentPrefix must be a string (was undefined)");
   });
 
   it("should handle empty code points array", () => {

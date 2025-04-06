@@ -1,5 +1,4 @@
 import type { type } from "arktype";
-import type { z } from "zod";
 
 export type LoomContextHelperFn = (version: string) => boolean;
 

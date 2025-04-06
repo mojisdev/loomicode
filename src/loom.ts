@@ -1,7 +1,6 @@
 import type { LoomConfig, LoomContext, LoomInstance } from "./types";
 import { type } from "arktype";
 import { compare } from "compare-versions";
-import { z } from "zod";
 
 function _validate<T extends type.Any>(value: T["infer"], schema: T): T["infer"] {
   const out = schema(value);
