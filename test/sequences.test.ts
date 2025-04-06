@@ -17,7 +17,10 @@ describe("sequences", () => {
     };
 
     const result = sequences({ ...defaultOptions, input: [input] });
-    expect(result).toBe("1F600 1F601 | emoji | smiling face # happy expression");
+    expect(result).toBe(
+      "1F600 1F601 | emoji | smiling face # happy expression\n"
+      + "#EOF\n",
+    );
   });
 
   it("should handle single code point", () => {
@@ -29,7 +32,10 @@ describe("sequences", () => {
     };
 
     const result = sequences({ ...defaultOptions, input: [input] });
-    expect(result).toBe("1F600 | emoji | smiling face # happy expression");
+    expect(result).toBe(
+      "1F600 | emoji | smiling face # happy expression\n"
+      + "#EOF\n",
+    );
   });
 
   it("should use custom separator and comment prefix", () => {
@@ -47,7 +53,10 @@ describe("sequences", () => {
     };
 
     const result = sequences({ ...options, input: [input] });
-    expect(result).toBe("1F600 -> emoji -> smiling face // happy expression");
+    expect(result).toBe(
+      "1F600 -> emoji -> smiling face // happy expression\n"
+      + "#EOF\n",
+    );
   });
 
   it("should validate input schema", () => {
@@ -98,7 +107,10 @@ describe("sequences", () => {
     };
 
     const result = sequences({ ...defaultOptions, input: [input] });
-    expect(result).toBe(" | emoji | smiling face # happy expression");
+    expect(result).toBe(
+      " | emoji | smiling face # happy expression\n"
+      + "#EOF\n",
+    );
   });
 
   it("should handle multiple inputs", () => {
@@ -119,7 +131,9 @@ describe("sequences", () => {
 
     const result = sequences({ ...defaultOptions, input: inputs });
     expect(result).toBe(
-      "1F600 | emoji | smiling face # happy expression\n1F601 | emoji | grinning face # very happy",
+      "1F600 | emoji | smiling face # happy expression\n"
+      + "1F601 | emoji | grinning face # very happy\n"
+      + "#EOF\n",
     );
   });
 });
