@@ -6,8 +6,12 @@ export function createLoom<
   TInputSchema extends z.ZodType,
   TOptionsSchema extends z.ZodType,
   TPresets extends Record<string, TInputSchema["_input"][]>,
->(config: LoomConfig<TInputSchema, TOptionsSchema, TPresets>): LoomInstance<TInputSchema, TOptionsSchema, TPresets> {
-  const baseLoomFn = (options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] }): string => {
+>(
+  config: LoomConfig<TInputSchema, TOptionsSchema, TPresets>,
+): LoomInstance<TInputSchema, TOptionsSchema, TPresets> {
+  const baseLoomFn = (
+    options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] },
+  ): string => {
     // validate options against schema
     const validatedOptions = config.optionsSchema.parse(options);
 
@@ -15,7 +19,9 @@ export function createLoom<
     const validatedInput = z.array(config.inputSchema).parse(options.input);
 
     // create context for template
-    const ctx: LoomContext<TOptionsSchema> = Object.freeze(buildLoomContext(validatedOptions));
+    const ctx: LoomContext<TOptionsSchema> = Object.freeze(
+      buildLoomContext(validatedOptions),
+    );
 
     // generate output for each item
     const lines: string[] = [];
@@ -43,15 +49,22 @@ export function createLoom<
     ? Object.fromEntries(
         Object.entries(config.presets).map(([key, value]) => [
           key,
-          (options: TOptionsSchema["_input"]) => baseLoomFn({ ...options, input: value }),
+          (options: TOptionsSchema["_input"]) =>
+            baseLoomFn({ ...options, input: value }),
         ]),
       )
     : {};
 
-  return Object.assign(baseLoomFn, presets) as LoomInstance<TInputSchema, TOptionsSchema, TPresets>;
+  return Object.assign(baseLoomFn, presets) as LoomInstance<
+    TInputSchema,
+    TOptionsSchema,
+    TPresets
+  >;
 }
 
-function buildLoomContext<TOptionsSchema extends z.ZodType>(options: TOptionsSchema["_input"]): LoomContext<TOptionsSchema> {
+function buildLoomContext<TOptionsSchema extends z.ZodType>(
+  options: TOptionsSchema["_input"],
+): LoomContext<TOptionsSchema> {
   return {
     options,
     isVersionLessThan: (version) => {
