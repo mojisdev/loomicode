@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { z } from "zod";
-import { createLoom } from "./loom";
+import { createLoom } from "../src/loom";
 
 const testInputSchema = z.object({
   name: z.string(),

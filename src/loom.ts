@@ -28,8 +28,10 @@ export function createLoom<
       lines.push(config.template(ctx, item));
     }
 
-    if (config.eof) {
-      lines.push("\n#EOF\n");
+    const hasLinesWithLength = lines.some((line) => line.trim().length > 0);
+
+    if (config.eof && hasLinesWithLength) {
+      lines.push("#EOF\n");
     }
 
     return lines.join("\n");
