@@ -39,6 +39,7 @@ export interface LoomContext<TOptionsSchema extends z.ZodType> extends LoomConte
 export interface LoomConfig<
   TInputSchema extends z.ZodType,
   TOptionsSchema extends z.ZodType,
+  TPresets extends Record<string, TInputSchema["_input"][]>,
 > {
   /**
    * The schema of the input data.
@@ -67,11 +68,19 @@ export interface LoomConfig<
    * The predicate function. If provided, the loom will only process items that return true.
    */
   predicate?: (ctx: LoomContext<TOptionsSchema>, item: TInputSchema["_input"]) => boolean;
+
+  /**
+   * Attach custom presets to the loom.
+   */
+  presets?: TPresets;
 }
 
-export interface LoomInstance<
+export type LoomInstance<
   TInputSchema extends z.ZodType,
   TOptionsSchema extends z.ZodType,
-> {
+  TPresets extends Record<string, TInputSchema["_input"][]>,
+> = {
   (options: TOptionsSchema["_input"] & { input: TInputSchema["_input"][] }): string;
-}
+} & {
+  [key in keyof TPresets]: (options: TOptionsSchema["_input"]) => string;
+};

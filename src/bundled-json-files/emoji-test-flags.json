@@ -1,0 +1,27 @@
+[
+  {
+    "group": "Flags",
+    "subgroups": [
+      {
+        "subgroup": "country-flag",
+        "entries": [
+          {
+            "codePoints": ["1F1E6", "1F1E8"],
+            "status": "fully-qualified",
+            "comment": "flag: Argentina"
+          },
+          {
+            "codePoints": ["1F1E6", "1F1F4"],
+            "status": "fully-qualified",
+            "comment": "flag: Angola"
+          },
+          {
+            "codePoints": ["1F1E6", "1F1F6"],
+            "status": "fully-qualified",
+            "comment": "flag: Antarctica"
+          }
+        ]
+      }
+    ]
+  }
+]

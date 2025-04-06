@@ -1,15 +1,25 @@
 import { z } from "zod";
-import bundledSmileys from "../bundled-json-files/emoji-test-smileys.json";
+import bundledFlags from "../bundled-json-files/emoji-test-flags.json" with { type: "json" };
+import bundledSmileys from "../bundled-json-files/emoji-test-smileys.json" with { type: "json" };
 import { createLoom } from "../loom";
+
+const VALID_STATUS = [
+  "component",
+  "fully-qualified",
+  "minimally-qualified",
+  "unqualified",
+] as const;
 
 const entry = z.object({
   codePoints: z.array(z.string()),
-  status: z.union([
-    z.literal("component"),
-    z.literal("fully-qualified"),
-    z.literal("minimally-qualified"),
-    z.literal("unqualified"),
-  ]),
+  // can't use union of literals since typescript can only infer
+  // the status type to a string, and not the union of literals
+  status: z.string().refine(
+    (val) => VALID_STATUS.includes(val as (typeof VALID_STATUS)[number]),
+    {
+      message: `status must be one of: ${VALID_STATUS.join(", ")}`,
+    },
+  ),
   comment: z.string(),
 });
 
@@ -27,7 +37,7 @@ const emojiTestOptionsSchema = z.object({
   version: z.string(),
 });
 
-const baseEmojiTest = createLoom({
+export const emojiTest = createLoom({
   inputSchema: emojiTestInputSchema,
   optionsSchema: emojiTestOptionsSchema,
   predicate: (ctx) => {
@@ -48,129 +58,8 @@ const baseEmojiTest = createLoom({
 
     return template;
   },
-});
-
-export const emojiTest = Object.assign(baseEmojiTest, {
-  smileys: (version: string): string => {
-    return baseEmojiTest({
-      version,
-      separator: ";",
-      commentPrefix: "#",
-      // @ts-expect-error asd
-      input: bundledSmileys,
-    });
-  },
-  skinTone: (version: string): string => {
-    return baseEmojiTest({
-      version,
-      separator: ";",
-      commentPrefix: "#",
-      input: [
-        {
-          group: "Component",
-          subgroups: [
-            {
-              subgroup: "skin-tone",
-              entries: [
-                {
-                  codePoints: ["1F3FB"],
-                  status: "component",
-                  comment: "light skin tone",
-                },
-                {
-                  codePoints: ["1F3FC"],
-                  status: "component",
-                  comment: "medium-light skin tone",
-                },
-                {
-                  codePoints: ["1F3FD"],
-                  status: "component",
-                  comment: "medium skin tone",
-                },
-                {
-                  codePoints: ["1F3FE"],
-                  status: "component",
-                  comment: "medium-dark skin tone",
-                },
-                {
-                  codePoints: ["1F3FF"],
-                  status: "component",
-                  comment: "dark skin tone",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  },
-  family: (version: string): string => {
-    return baseEmojiTest({
-      version,
-      separator: ";",
-      commentPrefix: "#",
-      input: [
-        {
-          group: "People & Body",
-          subgroups: [
-            {
-              subgroup: "family",
-              entries: [
-                {
-                  codePoints: ["1F468", "200D", "1F469", "200D", "1F467"],
-                  status: "fully-qualified",
-                  comment: "family: man, woman, girl",
-                },
-                {
-                  codePoints: ["1F468", "200D", "1F469", "200D", "1F467", "200D", "1F466"],
-                  status: "fully-qualified",
-                  comment: "family: man, woman, girl, boy",
-                },
-                {
-                  codePoints: ["1F468", "200D", "1F469", "200D", "1F466", "200D", "1F466"],
-                  status: "fully-qualified",
-                  comment: "family: man, woman, boy, boy",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  },
-
-  flag: (version: string): string => {
-    return baseEmojiTest({
-      version,
-      separator: ";",
-      commentPrefix: "#",
-      input: [
-        {
-          group: "Flags",
-          subgroups: [
-            {
-              subgroup: "country-flag",
-              entries: [
-                {
-                  codePoints: ["1F1E6", "1F1E8"],
-                  status: "fully-qualified",
-                  comment: "flag: Argentina",
-                },
-                {
-                  codePoints: ["1F1E6", "1F1F4"],
-                  status: "fully-qualified",
-                  comment: "flag: Angola",
-                },
-                {
-                  codePoints: ["1F1E6", "1F1F6"],
-                  status: "fully-qualified",
-                  comment: "flag: Antarctica",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+  presets: {
+    smileys: bundledSmileys,
+    flags: bundledFlags,
   },
 });
