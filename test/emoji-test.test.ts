@@ -31,8 +31,8 @@ it("should generate correct emoji test output for valid input", () => {
   });
 
   expect(result).toBe(
-    "group: Smileys & Emotion\n"
-    + "subgroup: face-smiling\n"
+    "# group: Smileys & Emotion\n\n"
+    + "# subgroup: face-smiling\n"
     + "1F600 ; fully-qualified # grinning face\n"
     + "1F603 ; fully-qualified # grinning face with big eyes\n"
     + "\n#EOF\n",
@@ -79,11 +79,11 @@ it("should handle multiple groups and subgroups", () => {
   });
 
   expect(result).toBe(
-    "group: Group 1\n"
-    + "subgroup: Subgroup A\n"
-    + "1F600 ; fully-qualified # test 1\n"
-    + "group: Group 2\n"
-    + "subgroup: Subgroup B\n"
+    "# group: Group 1\n\n"
+    + "# subgroup: Subgroup A\n"
+    + "1F600 ; fully-qualified # test 1\n\n"
+    + "# group: Group 2\n\n"
+    + "# subgroup: Subgroup B\n"
     + "1F603 ; fully-qualified # test 2\n"
     + "\n#EOF\n",
   );
@@ -124,8 +124,8 @@ it("should handle different status types", () => {
   });
 
   expect(result).toBe(
-    "group: Test Group\n"
-    + "subgroup: Test Subgroup\n"
+    "# group: Test Group\n\n"
+    + "# subgroup: Test Subgroup\n"
     + "1F600 ; component # component test\n"
     + "1F603 ; minimally-qualified # minimally qualified test\n"
     + "1F604 ; unqualified # unqualified test\n"
@@ -158,8 +158,8 @@ it("should handle multiple code points", () => {
   });
 
   expect(result).toBe(
-    "group: Test Group\n"
-    + "subgroup: Test Subgroup\n"
+    "# group: Test Group\n\n"
+    + "# subgroup: Test Subgroup\n"
     + "1F600 1F3FF ; fully-qualified # multi code point test\n"
     + "\n#EOF\n",
   );
@@ -211,8 +211,8 @@ it("should handle empty subgroups", () => {
   });
 
   expect(result).toBe(
-    "group: Test Group\n"
-    + "subgroup: Empty Subgroup\n"
+    "# group: Test Group\n\n"
+    + "# subgroup: Empty Subgroup\n"
     + "\n#EOF\n",
   );
 });

@@ -32,19 +32,17 @@ export const emojiTest = createLoom({
   predicate: (ctx) => {
     return ctx.isVersionGreaterThanOrEqual("3.x");
   },
+  eof: true,
   template: (ctx, item) => {
-    let template = `group: ${item.group}\n`;
+    let template = `# group: ${item.group}\n\n`;
 
     for (const subgroup of item.subgroups) {
-      template += `subgroup: ${subgroup.subgroup}\n`;
+      template += `# subgroup: ${subgroup.subgroup}\n`;
 
       for (const entry of subgroup.entries) {
         template += `${entry.codePoints.join(" ")} ${ctx.options.separator} ${entry.status} ${ctx.options.commentPrefix} ${entry.comment}\n`;
       }
     }
-
-    // these emoji-test files are using the #EOF marker to indicate the end of the file
-    template += "\n#EOF\n";
 
     return template;
   },
